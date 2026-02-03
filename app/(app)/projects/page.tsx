@@ -34,7 +34,7 @@ import {
 type ProjectForm = { name: string; color?: string };
 
 export default function ProjectsPage() {
-  const [includeArchived, setIncludeArchived] = useState(false);
+  const [includeArchived, setIncludeArchived] = useState(true);
 
   const q = useProjects(includeArchived);
   const createMut = useCreateProject();
@@ -47,7 +47,9 @@ export default function ProjectsPage() {
 
   const list = useMemo(() => q.data?.data ?? [], [q.data?.data]);
 
-  const createForm = useForm<ProjectForm>({ defaultValues: { name: "", color: "" } });
+  const createForm = useForm<ProjectForm>({
+    defaultValues: { name: "", color: "" },
+  });
 
   const submitCreate = async (v: ProjectForm) => {
     const name = v.name.trim();
@@ -60,17 +62,30 @@ export default function ProjectsPage() {
   return (
     <Container maxWidth="md" sx={{ py: 3 }}>
       <Stack spacing={2}>
-        <Stack direction="row" justifyContent="space-between" alignItems="center" flexWrap="wrap" gap={1}>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          flexWrap="wrap"
+          gap={1}
+        >
           <Box>
-            <Typography variant="h5" fontWeight={900}>Dự án</Typography>
+            <Typography variant="h5" fontWeight={900}>
+              Dự án
+            </Typography>
             <Typography variant="body2" color="text.secondary">
               Tạo dự án để lọc công việc theo nhóm.
             </Typography>
           </Box>
 
           <Stack direction="row" spacing={1} alignItems="center">
-            <Typography variant="body2" color="text.secondary">Lưu trữ</Typography>
-            <Switch checked={includeArchived} onChange={(e) => setIncludeArchived(e.target.checked)} />
+            <Typography variant="body2" color="text.secondary">
+              Lưu trữ
+            </Typography>
+            <Switch
+              checked={includeArchived}
+              onChange={(e) => setIncludeArchived(e.target.checked)}
+            />
             <Button variant="contained" onClick={() => setCreateOpen(true)}>
               Tạo mới dự án
             </Button>
@@ -86,7 +101,7 @@ export default function ProjectsPage() {
             <Stack spacing={1}>
               {list.length === 0 ? (
                 <Typography variant="body2" color="text.secondary">
-                  Chưa có project nào.
+                  Chưa có dự án nào.
                 </Typography>
               ) : (
                 list.map((p) => {
@@ -109,22 +124,38 @@ export default function ProjectsPage() {
                         <Typography fontWeight={900} noWrap>
                           {p.name} {isArchived ? " (archived)" : ""}
                         </Typography>
-                        <Typography variant="body2" color="text.secondary" noWrap>
+                        <Typography
+                          variant="body2"
+                          color="text.secondary"
+                          noWrap
+                        >
                           {p.color ? `Color: ${p.color}` : "No color"}
                         </Typography>
                       </Box>
 
                       <Stack direction="row" spacing={1}>
-                        <IconButton onClick={() => setEditing(p)} aria-label="edit">
+                        <IconButton
+                          onClick={() => setEditing(p)}
+                          aria-label="edit"
+                        >
                           <EditOutlinedIcon />
                         </IconButton>
 
                         <IconButton
-                          onClick={() => archiveMut.mutate({ id: p.id, archived: !isArchived })}
+                          onClick={() =>
+                            archiveMut.mutate({
+                              id: p.id,
+                              archived: !isArchived,
+                            })
+                          }
                           aria-label="archive"
                           disabled={archiveMut.isPending}
                         >
-                          {isArchived ? <UnarchiveOutlinedIcon /> : <ArchiveOutlinedIcon />}
+                          {isArchived ? (
+                            <UnarchiveOutlinedIcon />
+                          ) : (
+                            <ArchiveOutlinedIcon />
+                          )}
                         </IconButton>
 
                         <IconButton
@@ -145,17 +176,33 @@ export default function ProjectsPage() {
       </Stack>
 
       {/* Create */}
-      <Dialog open={createOpen} onClose={() => setCreateOpen(false)} fullWidth maxWidth="sm">
+      <Dialog
+        open={createOpen}
+        onClose={() => setCreateOpen(false)}
+        fullWidth
+        maxWidth="sm"
+      >
         <DialogTitle>New project</DialogTitle>
         <DialogContent sx={{ pt: 1 }}>
           <Stack spacing={2} sx={{ mt: 1 }}>
-            <TextField label="Name" {...createForm.register("name", { required: true })} />
-            <TextField label="Color (optional)" placeholder="#1976d2" {...createForm.register("color")} />
+            <TextField
+              label="Name"
+              {...createForm.register("name", { required: true })}
+            />
+            <TextField
+              label="Color (optional)"
+              placeholder="#1976d2"
+              {...createForm.register("color")}
+            />
           </Stack>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setCreateOpen(false)}>Cancel</Button>
-          <Button variant="contained" onClick={createForm.handleSubmit(submitCreate)} disabled={createMut.isPending}>
+          <Button
+            variant="contained"
+            onClick={createForm.handleSubmit(submitCreate)}
+            disabled={createMut.isPending}
+          >
             Create
           </Button>
         </DialogActions>
@@ -182,7 +229,9 @@ function EditProjectDialog({
 }) {
   const open = !!project;
   const form = useForm<ProjectForm>({
-    values: project ? { name: project.name, color: project.color ?? "" } : undefined,
+    values: project
+      ? { name: project.name, color: project.color ?? "" }
+      : undefined,
   });
 
   const submit = (v: ProjectForm) => {
@@ -199,8 +248,15 @@ function EditProjectDialog({
       <DialogTitle>Edit project</DialogTitle>
       <DialogContent sx={{ pt: 1 }}>
         <Stack spacing={2} sx={{ mt: 1 }}>
-          <TextField label="Name" {...form.register("name", { required: true })} />
-          <TextField label="Color" placeholder="#1976d2" {...form.register("color")} />
+          <TextField
+            label="Name"
+            {...form.register("name", { required: true })}
+          />
+          <TextField
+            label="Color"
+            placeholder="#1976d2"
+            {...form.register("color")}
+          />
         </Stack>
       </DialogContent>
       <DialogActions>

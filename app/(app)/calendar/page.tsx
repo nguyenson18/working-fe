@@ -26,6 +26,7 @@ import { useForm } from "react-hook-form";
 
 import { useTasks } from "@/features/tasks/hooks";
 import {
+  TaskPriorityGroups,
   TaskStatus,
   TaskStatusGroups,
   type Task,
@@ -218,14 +219,19 @@ export default function CalendarPage() {
                       {t.title}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {`${defaultEventDurationMin} min`}• {t.priority}
-                      {t.pinned ? " • Pinned" : ""}
+                      {`${defaultEventDurationMin} phút`}•{" "}
+                      {
+                        TaskPriorityGroups.find(
+                          (item) => item.value === t.priority,
+                        )?.display
+                      }
+                      {t.pinned ? " • Đã ghim" : ""}
                     </Typography>
                   </Box>
                 ))}
                 {!tasks.length && (
                   <Typography variant="body2" color="text.secondary">
-                    Không có task Cần làm/Đang làm.
+                    Không có công việc Cần làm/Đang làm.
                   </Typography>
                 )}
               </Stack>
