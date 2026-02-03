@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 import { login } from "@/src/lib/auth";
 import { notifier } from "@/src/lib/notifier";
 import Link from "next/link";
+import { LoadingButton } from "@mui/lab";
 
 const schema = z.object({
   email: z.string().email(),
@@ -67,9 +68,9 @@ export default function LoginPage() {
               Đăng ký
             </Link>
           </Typography>
-          <Button type="submit" variant="contained" disabled={isSubmitting}>
+          <LoadingButton type="submit" variant="contained" disabled={isSubmitting}>
             Đăng nhập
-          </Button>
+          </LoadingButton>
         </Stack>
       </Paper>
     </Container>

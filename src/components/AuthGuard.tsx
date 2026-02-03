@@ -14,7 +14,6 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   const ok = hasToken();
-
   useEffect(() => {
     if (!ok) {
       router.replace(`/login?next=${encodeURIComponent(pathname || "/today")}`);
