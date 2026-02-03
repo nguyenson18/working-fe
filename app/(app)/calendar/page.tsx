@@ -184,16 +184,9 @@ export default function CalendarPage() {
           Quản lý lịch biểu
         </Typography>
 
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: { xs: "1fr", md: "340px 1fr" },
-            gap: 2,
-            alignItems: "start",
-          }}
-        >
+        <Stack direction={"row"} spacing={1}>
           {/* LEFT: Tasks draggable */}
-          <Paper sx={{ p: 2, borderRadius: 2 }}>
+          <Paper sx={{ p: 2, borderRadius: 2, minWidth: "250px" }}>
             <Typography fontWeight={800} sx={{ mb: 1 }}>
               Công việc (kéo thả vào lịch)
             </Typography>
@@ -328,7 +321,7 @@ export default function CalendarPage() {
               }}
             />
           </Paper>
-        </Box>
+        </Stack>
       </Stack>
 
       {/* Create Event Dialog */}
