@@ -1,8 +1,11 @@
 import GuardToken from "@/src/components/GuardToken";
+import { Suspense } from "react";
 
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
-    <GuardToken>{children}</GuardToken>
+     <Suspense fallback={null}>
+      <GuardToken>{children}</GuardToken>
+    </Suspense>
   );
 }
